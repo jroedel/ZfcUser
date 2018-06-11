@@ -8,6 +8,6 @@
         <?php endforeach ?>
     </dl>
 <?php if ($this->redirect) : ?>
-    <input type="hidden" name="redirect" value="<?php echo $this->redirect ?>">
+    <input type="hidden" name="redirect" value="<?php echo $this->escapeHtmlAttr($this->redirect); ?>">
 <?php endif ?>
 <?php echo $this->form()->closeTag() ?>

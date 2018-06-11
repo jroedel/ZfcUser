@@ -7,6 +7,8 @@ use Zend\Router\RouteInterface;
 use Zend\Router\Exception;
 use Zend\Http\PhpEnvironment\Response;
 use ZfcUser\Options\ModuleOptions;
+use Zend\Http\Request;
+use Zend\Router\RouteMatch;
 
 /**
  * Buils a redirect response based on the current routing and parameters
@@ -77,7 +79,12 @@ class RedirectCallback
     private function routeExists($route)
     {
         try {
-            $this->router->assemble(array(), array('name' => $route));
+            $testRequest = new Request();
+            $testRequest->setUri($route);
+            $match = $this->router->match($testRequest);
+            if (!$match instanceof RouteMatch) {
+                return false;
+            }
         } catch (Exception\RuntimeException $e) {
             return false;
         }
@@ -104,15 +111,39 @@ class RedirectCallback
             case 'zfcuser/register':
             case 'zfcuser/login':
             case 'zfcuser/authenticate':
-                $route = ($redirect) ?: $this->options->getLoginRedirectRoute();
+                if ($redirect) {
+                    return $this->assembleRedirect($redirect);
+                }
+                $route = $this->options->getLoginRedirectRoute();
                 return $this->router->assemble(array(), array('name' => $route));
                 break;
             case 'zfcuser/logout':
-                $route = ($redirect) ?: $this->options->getLogoutRedirectRoute();
+                if ($redirect) {
+                    return $this->assembleRedirect($redirect);
+                }
+                $route = $this->options->getLogoutRedirectRoute();
                 return $this->router->assemble(array(), array('name' => $route));
                 break;
             default:
                 return $this->router->assemble(array(), array('name' => 'zfcuser'));
         }
+    }
+    
+    /**
+     * Assemble a route from redirect text
+     *
+     * @param string $redirect
+     * @throws \Exception
+     * @return mixed
+     */
+    protected function assembleRedirect($redirect)
+    {
+        $request = new Request();
+        $request->setUri($redirect);
+        $match = $this->router->match($request);
+        if (!$match instanceof RouteMatch) {
+            throw new \Exception('Invalid redirect "'.$redirect.'"');
+        }
+        return $this->router->assemble($match->getParams(), array('name' => $match->getMatchedRouteName()));
     }
 }
