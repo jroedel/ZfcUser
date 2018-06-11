@@ -87,9 +87,9 @@ class Base extends ProvidesEventsForm
         ));
 
         // @TODO: Fix this... getValidator() is a protected method.
-        //$csrf = new Element\Csrf('csrf');
-        //$csrf->getValidator()->setTimeout($this->getRegistrationOptions()->getUserFormTimeout());
-        //$this->add($csrf);
+        $csrf = new Element\Csrf('csrf');
+        $csrf->getCsrfValidator()->setTimeout($options->getLoginFormTimeout());
+        $this->add($csrf);
 
         $this->getEventManager()->trigger('init', $this);
     }

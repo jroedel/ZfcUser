@@ -3,6 +3,7 @@
 namespace ZfcUser\Form;
 
 use ZfcUser\Options\AuthenticationOptionsInterface;
+use Zend\Form\Element;
 
 class ChangeEmail extends ProvidesEventsForm
 {
@@ -61,7 +62,11 @@ class ChangeEmail extends ProvidesEventsForm
                 'type' => 'password',
             ),
         ));
-
+        
+        $csrf = new Element\Csrf('csrf');
+        $csrf->getCsrfValidator()->setTimeout($options->getLoginFormTimeout());
+        $this->add($csrf);
+        
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
