@@ -49,13 +49,26 @@ class Login extends ProvidesEventsForm
             ),
         ));
 
-        // @todo: Fix this
-        // i don't believe the login form is actually being validated by the login action
-        // (but keep in mind we don't want to show invalid username vs invalid password or
-        // anything like that, it should just say "login failed" without any additional info)
-        $csrf = new Element\Csrf('csrf');
-        $csrf->getCsrfValidator()->setTimeout($options->getLoginFormTimeout());
-        $this->add($csrf);
+        $this->add([
+            'type' => '\Zend\Form\Element\Csrf',
+            'name' => 'security',
+            'options' => [
+                'csrf_options' => [
+                    'timeout' => $this->getAuthenticationOptions()->getLoginFormTimeout()
+                ]
+            ]
+        ]);
+        
+        if ($this->getAuthenticationOptions()->getUseLoginFormCaptcha()) {
+            $this->add(array(
+                'name' => 'captcha',
+                'type' => 'Zend\Form\Element\Captcha',
+                'options' => array(
+                    'label' => 'Human check',
+                    'captcha' => $this->getAuthenticationOptions()->getFormCaptchaOptions(),
+                ),
+            ));
+        }
 
         $submitElement = new Element\Button('submit');
         $submitElement
