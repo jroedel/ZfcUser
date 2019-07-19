@@ -52,21 +52,21 @@ class User extends AbstractDbMapper implements UserInterface
         $this->tableName = $tableName;
     }
 
-    public function insert(UserEntityInterface $entity, $tableName = null, HydratorInterface $hydrator = null)
+    public function insertUser(UserEntityInterface $entity, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $result = parent::insert($entity, $tableName, $hydrator);
+        $result = parent::insertUser($entity, $tableName, $hydrator);
 
         $entity->setId($result->getGeneratedValue());
 
         return $result;
     }
 
-    public function update(UserEntityInterface $entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
+    public function updateUser(UserEntityInterface $entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (!$where) {
             $where = array('user_id' => $entity->getId());
         }
 
-        return parent::update($entity, $where, $tableName, $hydrator);
+        return parent::updateUser($entity, $where, $tableName, $hydrator);
     }
 }
