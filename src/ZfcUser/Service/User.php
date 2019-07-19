@@ -93,7 +93,7 @@ class User extends EventProvider
             $user->setState($this->getOptions()->getDefaultUserState());
         }
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $user, 'form' => $form));
-        $this->getUserMapper()->insert($user);
+        $this->getUserMapper()->insertUser($user);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $user, 'form' => $form));
         return $user;
     }
@@ -122,7 +122,7 @@ class User extends EventProvider
         $currentUser->setPassword($pass);
 
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $currentUser, 'data' => $data));
-        $this->getUserMapper()->update($currentUser);
+        $this->getUserMapper()->updateUser($currentUser);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $currentUser, 'data' => $data));
 
         return true;
@@ -142,7 +142,7 @@ class User extends EventProvider
         $currentUser->setEmail($data['newIdentity']);
 
         $this->getEventManager()->trigger(__FUNCTION__, $this, array('user' => $currentUser, 'data' => $data));
-        $this->getUserMapper()->update($currentUser);
+        $this->getUserMapper()->updateUser($currentUser);
         $this->getEventManager()->trigger(__FUNCTION__.'.post', $this, array('user' => $currentUser, 'data' => $data));
 
         return true;

@@ -128,7 +128,7 @@ class Db extends AbstractAdapter
             return;
         }
         $userObject->setPassword($bcrypt->create($password));
-        $this->getMapper()->update($userObject);
+        $this->getMapper()->updateUser($userObject);
         return $this;
     }
 

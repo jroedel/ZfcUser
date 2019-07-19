@@ -25,10 +25,10 @@ interface UserInterface
     /**
      * @param \ZfcUser\Entity\UserInterface $user
      */
-    public function insert(\ZfcUser\Entity\UserInterface $user);
+    public function insertUser(\ZfcUser\Entity\UserInterface $user);
 
     /**
      * @param \ZfcUser\Entity\UserInterface $user
      */
-    public function update(\ZfcUser\Entity\UserInterface $user);
+    public function updateUser(\ZfcUser\Entity\UserInterface $user);
 }

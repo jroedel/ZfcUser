@@ -277,7 +277,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             // insert
             $entity = clone $baseEntity;
 
-            $result = $this->mapper->insert($entity);
+            $result = $this->mapper->insertUser($entity);
 
             $this->assertNotNull($entity->getId());
             $this->assertGreaterThanOrEqual(1, $entity->getId());
@@ -289,7 +289,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             $entity->setUsername($entity->getUsername() . '-' . $diver);
             $entity->setEmail($entity->getUsername() . '@github.com');
 
-            $result = $this->mapper->update($entity);
+            $result = $this->mapper->updateUser($entity);
 
             $entityEqual = $this->mapper->findById($entity->getId());
             $this->assertNotEquals($baseEntity->getUsername(), $entityEqual->getUsername());

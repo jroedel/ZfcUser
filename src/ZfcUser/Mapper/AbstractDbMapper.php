@@ -123,7 +123,7 @@ abstract class AbstractDbMapper extends EventProvider
      * @param HydratorInterface|null $hydrator
      * @return ResultInterface
      */
-    protected function insert(UserEntityInterface $entity, $tableName = null, HydratorInterface $hydrator = null)
+    protected function insertUser(UserEntityInterface $entity, $tableName = null, HydratorInterface $hydrator = null)
     {
         $this->initialize();
         $tableName = $tableName ?: $this->tableName;
@@ -142,7 +142,7 @@ abstract class AbstractDbMapper extends EventProvider
      * @param HydratorInterface|null $hydrator
      * @return ResultInterface
      */
-    protected function update(UserEntityInterface $entity, $where, $tableName = null, HydratorInterface $hydrator = null)
+    protected function updateUser(UserEntityInterface $entity, $where, $tableName = null, HydratorInterface $hydrator = null)
     {
         $this->initialize();
         $tableName = $tableName ?: $this->tableName;
